@@ -6,7 +6,7 @@
 #    By: oph <oph@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/24 12:41:45 by oheinzel          #+#    #+#              #
-#    Updated: 2022/12/30 12:44:21 by oph              ###   ########.fr        #
+#    Updated: 2022/12/30 14:02:59 by oph              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CC			= cc
 CFLAGS		= -I #-Wall -Werror -Wextra#
 RM			= rm -f
 GREEN		= \033[0;32m
-MAGENTA		= \033[1;35m
+MAGENTA		= \033[1;36m
 CYAN		= \033[0;36m
 WHITE		= \033[0m
 
@@ -66,7 +66,7 @@ re:			fclean all
 			@echo "$(GREEN)Cleaned and rebuilt everything for pipex!$(WHITE)"
 
 cmd:		
-			@echo "------------------------------$(MAGENTA)THE 42 COMMANDMENTS$(WHITE)--------------------------------"
+			@echo "******************************$(MAGENTA)THE 42 COMMANDMENTS$(WHITE)********************************"
 			@echo "|	0: CC is the compiler, you shalt have no other compilers before them	|"
 			@echo "|	1: You shalt not use any librarys name in vain				|"
 			@echo "|	2: Remember the eval points, to keep them holy				|"
@@ -77,6 +77,6 @@ cmd:
 			@echo "|	7: You shalt not bear paco --strict results against your evaluatee	|"
 			@echo "|	8: You shalt not covet thy neighbours mouse				|"
 			@echo "|	9: You shalt not covet thy neighbours leaderboard position		|"
-			@echo "---------------------------------------------------------------------------------"
+			@echo "*********************************************************************************"
 
 .PHONY:		all clean fclean re cmd
