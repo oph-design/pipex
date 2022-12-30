@@ -6,7 +6,7 @@
 #    By: oph <oph@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/24 12:41:45 by oheinzel          #+#    #+#              #
-#    Updated: 2022/12/30 14:02:59 by oph              ###   ########.fr        #
+#    Updated: 2022/12/30 14:18:01 by oph              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ re:			fclean all
 			@echo "$(GREEN)Cleaned and rebuilt everything for pipex!$(WHITE)"
 
 cmd:		
+			@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
 			@echo "******************************$(MAGENTA)THE 42 COMMANDMENTS$(WHITE)********************************"
 			@echo "|	0: CC is the compiler, you shalt have no other compilers before them	|"
 			@echo "|	1: You shalt not use any librarys name in vain				|"
@@ -78,5 +79,6 @@ cmd:
 			@echo "|	8: You shalt not covet thy neighbours mouse				|"
 			@echo "|	9: You shalt not covet thy neighbours leaderboard position		|"
 			@echo "*********************************************************************************"
+			@echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
 
-.PHONY:		all clean fclean re cmd
+.PHONY:		all clean fclean re cmd		
