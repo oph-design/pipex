@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
+/*   By: oph <oph@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 12:33:53 by oheinzel          #+#    #+#             */
-/*   Updated: 2022/12/24 12:33:53 by oheinzel         ###   ########.fr       */
+/*   Updated: 2022/12/30 12:30:49 by oph              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 # define PIPEX_H
 
 # include "libft.h"
-# include <fctnl.h>
+# include <fcntl.h>
 
 #endif
