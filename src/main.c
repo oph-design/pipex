@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/04 15:25:07 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/04 15:28:56 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ char	*get_path(char **env, char *arg)
 	paths = ft_split(*env + 5, ':');
 	while (paths[i] != NULL)
 	{
+		ft_strlcat(paths[i], "/", ft_strlen(paths[i]) + 2);
+		ft_strlcat(paths[i], arg, ft_strlen(paths[i]) + ft_strlen(arg) + 1);
 		res = ft_strdup(paths[i]);
-		ft_strlcat(res, "/", ft_strlen(res) + 2);
-		ft_strlcat(res, arg, ft_strlen(res) + ft_strlen(arg) + 1);
-		res = ft_strdup(res);
 		if (!access(res, X_OK))
 			return (free_str_arr(paths), res);
 		free(res);
@@ -71,6 +70,7 @@ int	main(int argc, char *argv[], char *env[])
 	int		src[2];
 	pid_t	child;
 
+	ft_printf("%s\n", get_path(env, argv[2]));
 	if (argc != 5)
 		return (ft_putendl_fd("ERROR: Wrong arguments count", 2), 0);
 	change_src(argv[1], 1);
