@@ -6,7 +6,7 @@
 #    By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/24 12:41:45 by oheinzel          #+#    #+#              #
-#    Updated: 2023/01/03 09:47:04 by oheinzel         ###   ########.fr        #
+#    Updated: 2023/01/04 14:32:54 by oheinzel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,21 +67,5 @@ re:			fclean all
 
 BLUE		= \033[1;36m
 WHITE		= \033[0m
-
-cmd:
-			@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-			@echo "******************************$(BLUE)THE 42 COMMANDMENTS$(WHITE)********************************"
-			@echo "|	0: CC is the compiler, you shalt have no other compilers before them	|"
-			@echo "|	1: You shalt not use any librarys name in vain				|"
-			@echo "|	2: Remember the eval points, to keep them holy				|"
-			@echo "|	3: Honour FdF and fract-ol						|"
-			@echo "|	4: You shalt not register so_long					|"
-			@echo "|	5: You shalt not cheat							|"
-			@echo "|	6: You shalt not use ft_calloc, as it is the forbidden function		|"
-			@echo "|	7: You shalt not bear paco --strict results against your evaluatee	|"
-			@echo "|	8: You shalt not covet thy neighbours mouse				|"
-			@echo "|	9: You shalt not covet thy neighbours leaderboard position		|"
-			@echo "*********************************************************************************"
-			@echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
 
 .PHONY:		all clean fclean re cmd
