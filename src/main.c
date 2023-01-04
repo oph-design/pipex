@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/04 15:28:56 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/04 17:15:58 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	change_src(char *file, int src)
 {
 	int	fd;
 
-	fd = open(file, 0);
+	fd = open(file, O_WRONLY);
 	dup2(fd, src);
 	close(fd);
 }
@@ -70,24 +70,25 @@ int	main(int argc, char *argv[], char *env[])
 	int		src[2];
 	pid_t	child;
 
-	ft_printf("%s\n", get_path(env, argv[2]));
+	change_src(argv[4], STDOUT_FILENO);
+	exec_cmd(argv[2], env);
 	if (argc != 5)
 		return (ft_putendl_fd("ERROR: Wrong arguments count", 2), 0);
-	change_src(argv[1], 1);
-	child = fork();
+	change_src(argv[1], 0);
 	pipe(src);
+	child = fork();
 	if (child == 0)
 	{
 		dup2(src[1], 1);
 		close(src[0]);
-		change_src(argv[5], 0);
-		exec_cmd(argv[4], env);
+		change_src(argv[4], 1);
+		exec_cmd(argv[3], env);
 	}
 	else
 	{
 		dup2(src[0], 0);
 		close(src[1]);
-		exec_cmd(argv[3], env);
+		exec_cmd(argv[2], env);
 	}
 	return (0);
 }
