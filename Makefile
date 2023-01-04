@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: oph <oph@student.42.fr>                    +#+  +:+       +#+         #
+#    By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/24 12:41:45 by oheinzel          #+#    #+#              #
-#    Updated: 2022/12/30 14:18:01 by oph              ###   ########.fr        #
+#    Updated: 2023/01/03 09:47:04 by oheinzel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ CC			= cc
 CFLAGS		= -I #-Wall -Werror -Wextra#
 RM			= rm -f
 GREEN		= \033[0;32m
-MAGENTA		= \033[1;36m
+BLUE		= \033[1;36m
 CYAN		= \033[0;36m
 WHITE		= \033[0m
 
@@ -65,9 +65,12 @@ fclean:		clean
 re:			fclean all
 			@echo "$(GREEN)Cleaned and rebuilt everything for pipex!$(WHITE)"
 
-cmd:		
+BLUE		= \033[1;36m
+WHITE		= \033[0m
+
+cmd:
 			@echo "~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~"
-			@echo "******************************$(MAGENTA)THE 42 COMMANDMENTS$(WHITE)********************************"
+			@echo "******************************$(BLUE)THE 42 COMMANDMENTS$(WHITE)********************************"
 			@echo "|	0: CC is the compiler, you shalt have no other compilers before them	|"
 			@echo "|	1: You shalt not use any librarys name in vain				|"
 			@echo "|	2: Remember the eval points, to keep them holy				|"
@@ -81,4 +84,4 @@ cmd:
 			@echo "*********************************************************************************"
 			@echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
 
-.PHONY:		all clean fclean re cmd		
+.PHONY:		all clean fclean re cmd
