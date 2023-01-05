@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/05 14:49:59 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/05 17:30:15 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,14 @@ int	main(int argc, char *argv[], char *env[])
 	child = fork();
 	if (child == 0)
 	{
-		dup2(src[1], 0);
+		dup2(src[0], 0);
 		close(src[1]);
 		change_src(argv[4], 1);
 		exec_cmd(argv[3], env);
 	}
 	else
 	{
-		dup2(src[0], 1);
+		dup2(src[1], 1);
 		close(src[0]);
 		exec_cmd(argv[2], env);
 	}
