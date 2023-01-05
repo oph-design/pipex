@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/04 17:15:58 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:49:59 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	change_src(char *file, int src)
 {
 	int	fd;
 
-	fd = open(file, O_WRONLY);
+	if (src == 1)
+		fd = open(file, O_WRONLY);
+	else
+		fd = open(file, O_RDONLY);
 	dup2(fd, src);
 	close(fd);
 }
@@ -45,9 +48,8 @@ char	*get_path(char **env, char *arg)
 	paths = ft_split(*env + 5, ':');
 	while (paths[i] != NULL)
 	{
-		ft_strlcat(paths[i], "/", ft_strlen(paths[i]) + 2);
-		ft_strlcat(paths[i], arg, ft_strlen(paths[i]) + ft_strlen(arg) + 1);
-		res = ft_strdup(paths[i]);
+		res = ft_strjoin(paths[i], "/");
+		res = ft_strjoin_alt(res, arg);
 		if (!access(res, X_OK))
 			return (free_str_arr(paths), res);
 		free(res);
@@ -70,8 +72,6 @@ int	main(int argc, char *argv[], char *env[])
 	int		src[2];
 	pid_t	child;
 
-	change_src(argv[4], STDOUT_FILENO);
-	exec_cmd(argv[2], env);
 	if (argc != 5)
 		return (ft_putendl_fd("ERROR: Wrong arguments count", 2), 0);
 	change_src(argv[1], 0);
@@ -79,15 +79,15 @@ int	main(int argc, char *argv[], char *env[])
 	child = fork();
 	if (child == 0)
 	{
-		dup2(src[1], 1);
-		close(src[0]);
+		dup2(src[1], 0);
+		close(src[1]);
 		change_src(argv[4], 1);
 		exec_cmd(argv[3], env);
 	}
 	else
 	{
-		dup2(src[0], 0);
-		close(src[1]);
+		dup2(src[0], 1);
+		close(src[0]);
 		exec_cmd(argv[2], env);
 	}
 	return (0);

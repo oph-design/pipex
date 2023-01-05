@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:57:07 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/03 10:00:17 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/05 14:18:34 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ char	*ft_itoa(int n);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
 char	*ft_strjoin(char const *s1, char const *s2);
+char	*ft_strjoin_alt(char *s1, char *s2);
 int		ft_printf(const char *s, ...);
+char	*get_next_line(int fd);
 
 //bonus functions
 t_list	*ft_lstnew(void *content);
