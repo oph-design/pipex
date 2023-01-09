@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/06 14:51:31 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/09 17:14:25 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,24 @@ char	*get_path(char **env, char *arg)
 	return (free_str_arr(paths), NULL);
 }
 
-void	exec_cmd(char *arg, char **env)
+void	exec_cmd(char **argv, char **env, int *src, int i)
 {
 	char	**cmd;
 	char	*err;
 
-	cmd = ft_split(arg, ' ');
+	cmd = ft_split(argv[i], ' ');
 	err = NULL;
+	if (argv[i + 2] != NULL)
+		dup2(src[1], 1);
+	else
+		change_src(argv[i + 1], 1);
+	close(src[1]);
+	close(src[0]);
 	if (execve(get_path(env, cmd[0]), cmd, env) == -1)
 	{
-		err = ft_strjoin("command not found: ", cmd[0]);
+		err = ft_strjoin("pipex: command not found: ", cmd[0]);
 		free_str_arr(cmd);
-		perror(err);
+		ft_putendl_fd(err, 2);
 		exit(0);
 	}
 }
@@ -84,26 +90,25 @@ int	main(int argc, char *argv[], char *env[])
 {
 	int		src[2];
 	pid_t	pid;
+	int		i;
 
-	if (argc != 5)
-		ft_error(5);
 	change_src(argv[1], 0);
-	pipe(src);
-	pid = fork();
-	if (pid == -1)
-		ft_error(10);
-	if (pid == 0)
+	i = 1;
+	while (++i < argc - 1)
 	{
-		dup2(src[0], 0);
-		close(src[1]);
-		change_src(argv[4], 1);
-		exec_cmd(argv[3], env);
-	}
-	else
-	{
-		dup2(src[1], 1);
-		close(src[0]);
-		exec_cmd(argv[2], env);
+		pipe(src);
+		ft_printf("%d", src[0]);
+		pid = fork();
+		if (pid == -1)
+			ft_error(10);
+		if (pid == 0)
+			exec_cmd(argv, env, src, i);
+		else
+		{
+			dup2(src[0], 0);
+			close(src[0]);
+			close(src[1]);
+		}
 	}
 	return (0);
 }
