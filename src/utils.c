@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 14:36:05 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/10 17:49:46 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/10 18:00:13 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,18 @@ char	**format_cmd(char **cmd)
 	tmp = NULL;
 	arr = cmd;
 	res = malloc(ft_arr_len(cmd) * sizeof(char *));
+	res[i] = strdup(*arr);
+	arr++;
 	while (*arr != NULL)
 	{
-		tmp = *arr;
-		if (ft_strchr(*arr, '"') != NULL || ft_strchr(*arr, '\'') != NULL)
-			tmp = append(&arr);
-		res[i] = strdup(tmp);
+		// tmp = *arr;
+		// if (ft_strchr(*arr, '"') != NULL || ft_strchr(*arr, '\'') != NULL)
+		// 	tmp = append(&arr);
+		res[i] = ft_strjoin(res[i], *arr);
 		arr++;
-		i++;
+		//i++;
 	}
-	res[i] = NULL;
+	res[++i] = NULL;
 	ft_free_arr(cmd);
 	return (res);
 }

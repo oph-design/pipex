@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/10 17:49:34 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/10 18:00:27 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	char	*err;
 
 	cmd = ft_split(argv[i], ' ');
+	if (ft_arr_len(cmd) > 3)
+		cmd = format_cmd(cmd);
 	//cmd = format_cmd(cmd);
 	err = NULL;
 	if (argv[i + 2] != NULL)
