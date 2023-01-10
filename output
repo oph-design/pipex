@@ -1,3 +1,15 @@
-total 16
--rw-r--r--  1 oheinzel  2022_heilbronn  2341  9 Jan 09:39 main.c
--rw-r--r--  1 oheinzel  2022_heilbronn   981  6 Jan 10:03 utils.c
+total 144
+drwxr-xr-x  14 oheinzel  2022_heilbronn    476 10 Jan 14:03 .
+drwxr-xr-x  10 oheinzel  2022_heilbronn    340  3 Jan 17:11 ..
+drwxr-xr-x  15 oheinzel  2022_heilbronn    510 10 Jan 13:17 .git
+-rw-r--r--   1 oheinzel  2022_heilbronn    436  3 Jan 09:45 .gitignore
+-rw-r--r--   1 oheinzel  2022_heilbronn   2065  4 Jan 14:32 Makefile
+-rw-r--r--   1 oheinzel  2022_heilbronn      7  3 Jan 09:45 README.md
+-rw-r--r--   1 oheinzel  2022_heilbronn     14  9 Jan 09:55 in
+drwxr-xr-x   4 oheinzel  2022_heilbronn    136  3 Jan 09:45 include
+drwxr-xr-x   6 oheinzel  2022_heilbronn    204 10 Jan 13:49 libft
+drwxr-xr-x   4 oheinzel  2022_heilbronn    136 10 Jan 14:03 obj
+-rw-r--r--   1 oheinzel  2022_heilbronn      0 10 Jan 14:34 output
+-rwxr-xr-x   1 oheinzel  2022_heilbronn  50792 10 Jan 14:03 pipex
+-rwxr--r--   1 oheinzel  2022_heilbronn    140  4 Jan 09:33 push.sh
+drwxr-xr-x   4 oheinzel  2022_heilbronn    136  3 Jan 09:45 src

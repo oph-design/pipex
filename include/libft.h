@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/14 15:57:07 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/05 14:18:34 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/10 16:44:56 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 //BUFFER
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 100
+#  define BUFFER_SIZE 1
 # endif
 
 //external
@@ -70,6 +70,9 @@ char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strjoin_alt(char *s1, char *s2);
 int		ft_printf(const char *s, ...);
 char	*get_next_line(int fd);
+void	ft_free_arr(char **ptr);
+void	ft_swap(char *str, char a, char b);
+size_t	ft_arr_len(char **arr);
 
 //bonus functions
 t_list	*ft_lstnew(void *content);

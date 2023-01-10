@@ -6,22 +6,11 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/09 17:14:25 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/10 17:49:34 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-
-void	free_str_arr(char **ptr)
-{
-	int	i;
-
-	i = 0;
-	while (ptr[i] != NULL)
-		free(ptr[i++]);
-	free(ptr);
-	ptr = NULL;
-}
 
 void	change_src(char *file, int src)
 {
@@ -57,11 +46,11 @@ char	*get_path(char **env, char *arg)
 		res = ft_strjoin(paths[i], "/");
 		res = ft_strjoin_alt(res, arg);
 		if (!access(res, X_OK))
-			return (free_str_arr(paths), res);
+			return (ft_free_arr(paths), res);
 		free(res);
 		i++;
 	}
-	return (free_str_arr(paths), NULL);
+	return (ft_free_arr(paths), NULL);
 }
 
 void	exec_cmd(char **argv, char **env, int *src, int i)
@@ -70,6 +59,7 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	char	*err;
 
 	cmd = ft_split(argv[i], ' ');
+	//cmd = format_cmd(cmd);
 	err = NULL;
 	if (argv[i + 2] != NULL)
 		dup2(src[1], 1);
@@ -80,7 +70,7 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	if (execve(get_path(env, cmd[0]), cmd, env) == -1)
 	{
 		err = ft_strjoin("pipex: command not found: ", cmd[0]);
-		free_str_arr(cmd);
+		ft_free_arr(cmd);
 		ft_putendl_fd(err, 2);
 		exit(0);
 	}
@@ -96,11 +86,11 @@ int	main(int argc, char *argv[], char *env[])
 	i = 1;
 	while (++i < argc - 1)
 	{
-		pipe(src);
-		ft_printf("%d", src[0]);
+		if (pipe(src))
+			ft_error("piping faild", 0, -1);
 		pid = fork();
 		if (pid == -1)
-			ft_error(10);
+			ft_error("forking failed", 0, -1);
 		if (pid == 0)
 			exec_cmd(argv, env, src, i);
 		else
