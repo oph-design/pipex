@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 14:36:05 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/12 16:35:40 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/12 17:04:24 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,22 @@ char	**join_cmd(char **cmd)
 	res[1] = tmp;
 	res[2] = NULL;
 	return (ft_free_arr(cmd), res);
+}
+
+int	here_doc(char **argv)
+{
+	char	*str;
+	int		fd;
+
+	if (strncmp(argv[1], "here_doc", 9))
+		return (0);
+	fd = open("tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	str = get_next_line(0);
+	while (strncmp(str, argv[2], ft_strlen(argv[2])))
+	{
+		free(str);
+		str = get_next_line(0);
+	}
+	ft_putstr_fd(str, fd);
+	return (free(str), 1);
 }
