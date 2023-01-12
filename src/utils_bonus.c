@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 14:36:05 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/12 16:35:40 by oheinzel         ###   ########.fr       */
+/*   Created: 2023/01/12 15:44:41 by oheinzel          #+#    #+#             */
+/*   Updated: 2023/01/12 15:45:04 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@ void	ft_error(char *mess, int exit_code, int fd)
 {
 	if (fd > 0)
 		close(fd);
-	perror(ft_strjoin("piex: ", mess));
-	free(mess);
+	perror(mess);
 	exit(exit_code);
 }
 
