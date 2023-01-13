@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+input
+output
 
 # Object files
 *.o

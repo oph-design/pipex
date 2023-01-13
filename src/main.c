@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/13 17:23:16 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/13 18:20:32 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,14 +77,17 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	}
 }
 
-void	pipex(int *src, int fd, char **argv, char **env)
+void	pipex(int fd, char **argv, char **env)
 {
 	int		i;
 	pid_t	pid;
+	int		src[2];
 
 	i = 1;
 	while (argv[++i + 1] != NULL)
 	{
+		if (pipe(src))
+			ft_error("piping failed", 0);
 		pid = fork();
 		if (pid == -1)
 			ft_error("forking failed", 0);
@@ -96,8 +99,6 @@ void	pipex(int *src, int fd, char **argv, char **env)
 		close(src[0]);
 		close(src[1]);
 		waitpid(pid, NULL, WNOHANG);
-		if (pipe(src))
-			ft_error("piping failed", 0);
 		fd = 0;
 	}
 }
@@ -105,13 +106,10 @@ void	pipex(int *src, int fd, char **argv, char **env)
 int	main(int argc, char *argv[], char *env[])
 {
 	int	fd;
-	int	src[2];
 
 	if (argc != 5)
 		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
 	fd = change_src(argv[1], 0);
-	if (pipe(src))
-		ft_error("piping failed", 0);
-	pipex(src, fd, argv, env);
+	pipex(fd, argv, env);
 	return (0);
 }
