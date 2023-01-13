@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/13 12:56:05 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/13 13:43:26 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,15 +87,12 @@ void	pipex(int *src, int fd, char **argv, char **env)
 			ft_error(ft_strjoin("no such file or directory: ", argv[1]), 1);
 		else if (pid == 0)
 			exec_cmd(argv, env, src, i);
-		else
-		{
-			dup2(src[0], 0);
-			close(src[0]);
-			close(src[1]);
-			waitpid(pid, NULL, WNOHANG);
-			if (pipe(src))
-				ft_error("piping failed", 0);
-		}
+		dup2(src[0], 0);
+		close(src[0]);
+		close(src[1]);
+		waitpid(pid, NULL, WNOHANG);
+		if (pipe(src))
+			ft_error("piping failed", 0);
 		fd = 0;
 	}
 }
