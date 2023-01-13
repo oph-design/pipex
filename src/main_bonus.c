@@ -116,10 +116,9 @@ int	main(int argc, char *argv[], char *env[])
 	i = 1;
 	if (argc < 3 || (!ft_strncmp(argv[1], "here_doc", 9) && argc < 4))
 		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
-	if (ft_strncmp(argv[1], "here_doc", 9))
-		fd = change_src(argv[1], 0);
-	else
-		fd = here_doc(argv++);
+	if (!ft_strncmp(argv[1], "here_doc", 9))
+		here_doc(argv++);
+	fd = change_src(argv[1], 0);
 	pipex(fd, argv, env);
 	return (0);
 }
