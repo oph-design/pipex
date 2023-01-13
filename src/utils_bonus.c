@@ -67,14 +67,14 @@ char	**join_cmd(char **cmd)
 	return (ft_free_arr(cmd), res);
 }
 
-int	here_doc(char **argv)
+void	here_doc(char **argv)
 {
 	char	*str;
 	char	*limiter;
 	int		src[2];
 
 	if (pipe(src))
-		ft_error("piping failed", 0);
+		ft_error("here_doc error", 0);
 	limiter = ft_strjoin(argv[2], "\n");
 	str = get_next_line(0);
 	while (ft_strncmp(limiter, str, ft_strlen(str) - 1))
@@ -86,6 +86,6 @@ int	here_doc(char **argv)
 	dup2(src[0], 0);
 	close(src[0]);
 	close(src[1]);
-	change_src(argv[1], 5);
-	return (free(str), free(limiter), src[0]);
+	free(str);
+	free(limiter);
 }
