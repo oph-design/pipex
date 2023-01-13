@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:45 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/13 13:47:02 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/13 17:51:14 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,14 @@
 
 int	change_src(char *file, int src)
 {
-	int	fd;
+	int			fd;
+	static int	append = 0;
 
-	if (src == 1)
+	if (!ft_strncmp(file, "here_doc", 9))
+		return (append = 1, 1);
+	if (src == 1 && append == 1)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	else if (src == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
 		fd = open(file, O_RDONLY);
@@ -77,14 +82,17 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	}
 }
 
-void	pipex(int *src, int fd, char **argv, char **env)
+void	pipex(int fd, char **argv, char **env)
 {
 	int		i;
 	pid_t	pid;
+	int		src[2];
 
 	i = 1;
 	while (argv[++i + 1] != NULL)
 	{
+		if (pipe(src))
+			ft_error("piping failed", 0);
 		pid = fork();
 		if (pid == -1)
 			ft_error("forking failed", 0);
@@ -96,8 +104,6 @@ void	pipex(int *src, int fd, char **argv, char **env)
 		close(src[0]);
 		close(src[1]);
 		waitpid(pid, NULL, WNOHANG);
-		if (pipe(src))
-			ft_error("piping failed", 0);
 		fd = 0;
 	}
 }
@@ -106,17 +112,14 @@ int	main(int argc, char *argv[], char *env[])
 {
 	int	i;
 	int	fd;
-	int	src[2];
 
 	i = 1;
-	if (argc < 5 || (!ft_strncmp(argv[1], "here_doc", 9) && argc < 6))
+	if (argc < 3 || (!ft_strncmp(argv[1], "here_doc", 9) && argc < 4))
 		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
-	if (pipe(src))
-		ft_error("piping failed", 0);
 	if (ft_strncmp(argv[1], "here_doc", 9))
 		fd = change_src(argv[1], 0);
 	else
-		fd = here_doc(argv++, src);
-	pipex(src, fd, argv, env);
+		fd = here_doc(argv++);
+	pipex(fd, argv, env);
 	return (0);
 }

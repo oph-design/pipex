@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:41 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/13 13:41:10 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/13 17:49:24 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,17 +67,25 @@ char	**join_cmd(char **cmd)
 	return (ft_free_arr(cmd), res);
 }
 
-int	here_doc(char **argv, int *src)
+int	here_doc(char **argv)
 {
 	char	*str;
+	char	*limiter;
+	int		src[2];
 
+	if (pipe(src))
+		ft_error("piping failed", 0);
+	limiter = ft_strjoin(argv[2], "\n");
 	str = get_next_line(0);
-	while (strncmp(argv[2], str, ft_strlen(str) - 1))
+	while (ft_strncmp(limiter, str, ft_strlen(str) - 1))
 	{
-		ft_putstr_fd(str, src[0]);
 		free(str);
+		ft_putstr_fd(str, src[1]);
 		str = get_next_line(0);
 	}
 	dup2(src[0], 0);
-	return (free(str), src[0]);
+	close(src[0]);
+	close(src[1]);
+	change_src(argv[1], 5);
+	return (free(str), free(limiter), src[0]);
 }

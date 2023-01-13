@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/13 13:43:26 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/13 17:23:16 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	if (access(argv[i], X_OK) < 0)
 		path = get_path(env, cmd[0]);
 	if (execve(path, cmd, env) == -1)
-		ft_error(ft_strjoin("command not found: ", cmd[0]), 2);
+	{
+		err = ft_strjoin("pipex: command not found: ", cmd[0]);
+		ft_free_arr(cmd);
+		ft_putendl_fd(err, 2);
+		exit(2);
+	}
 }
 
 void	pipex(int *src, int fd, char **argv, char **env)
