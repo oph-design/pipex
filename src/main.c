@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/12 16:40:20 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/13 12:56:05 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,45 +69,47 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	if (access(argv[i], X_OK) < 0)
 		path = get_path(env, cmd[0]);
 	if (execve(path, cmd, env) == -1)
-	{
-		err = ft_strjoin("pipex: command not found: ", cmd[0]);
-		ft_free_arr(cmd);
-		ft_putendl_fd(err, 2);
-		exit(0);
-	}
+		ft_error(ft_strjoin("command not found: ", cmd[0]), 2);
 }
 
-void	pipex(int i, int fd, char **argv, char **env)
+void	pipex(int *src, int fd, char **argv, char **env)
 {
-	int		src[2];
+	int		i;
 	pid_t	pid;
 
-	if (pipe(src))
-		ft_error("piping failed", 0, -1);
-	pid = fork();
-	if (pid == -1)
-		ft_error("forking failed", 0, -1);
-	if (pid == 0 && fd == -1)
-		ft_error ("no such file or directory: ", 1, src[0]);
-	else if (pid == 0)
-		exec_cmd(argv, env, src, i);
-	else
+	i = 1;
+	while (argv[++i + 1] != NULL)
 	{
-		dup2(src[0], 0);
-		close(src[0]);
-		close(src[1]);
-		waitpid(pid, NULL, WNOHANG);
+		pid = fork();
+		if (pid == -1)
+			ft_error("forking failed", 0);
+		if (pid == 0 && fd == -1)
+			ft_error(ft_strjoin("no such file or directory: ", argv[1]), 1);
+		else if (pid == 0)
+			exec_cmd(argv, env, src, i);
+		else
+		{
+			dup2(src[0], 0);
+			close(src[0]);
+			close(src[1]);
+			waitpid(pid, NULL, WNOHANG);
+			if (pipe(src))
+				ft_error("piping failed", 0);
+		}
+		fd = 0;
 	}
 }
 
 int	main(int argc, char *argv[], char *env[])
 {
-	int	i;
 	int	fd;
+	int	src[2];
 
-	i = 1;
+	if (argc != 5)
+		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
 	fd = change_src(argv[1], 0);
-	while (++i < argc - 1)
-		pipex(i, fd, argv, env);
+	if (pipe(src))
+		ft_error("piping failed", 0);
+	pipex(src, fd, argv, env);
 	return (0);
 }

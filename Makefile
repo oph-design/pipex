@@ -6,7 +6,7 @@
 #    By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/24 12:41:45 by oheinzel          #+#    #+#              #
-#    Updated: 2023/01/04 14:32:54 by oheinzel         ###   ########.fr        #
+#    Updated: 2023/01/13 12:32:19 by oheinzel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ LIBFT		= libft
 SRC_DIR		= src/
 OBJ_DIR		= obj/
 CC			= cc
-CFLAGS		= -I #-Wall -Werror -Wextra#
+CFLAGS		= -Wall -Werror -Wextra -I
 RM			= rm -f
 GREEN		= \033[0;32m
 BLUE		= \033[1;36m
@@ -28,15 +28,18 @@ WHITE		= \033[0m
 #Sources
 
 SRC_FILES	=	main utils
+SRC_B_FILES	=	main_bonus utils_bonus
 
-SRC 		= 	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
-OBJ 		= 	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
+SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
+OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
+SRC_B		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_B_FILES)))
+OBJ_B		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_B_FILES)))
 
 ###
 
 OBJF		=	.cache_exists
 
-all:		cmd $(NAME)
+all:		$(NAME)
 
 $(NAME):	$(OBJ)
 			@make -C $(LIBFT)
@@ -65,7 +68,11 @@ fclean:		clean
 re:			fclean all
 			@echo "$(GREEN)Cleaned and rebuilt everything for pipex!$(WHITE)"
 
-BLUE		= \033[1;36m
-WHITE		= \033[0m
+bonus:		fclean $(OBJ_B)
+			@make -C $(LIBFT)
+			@cp libft/libft.a .
+			@$(CC) $(CFLAGS) $(INCLUDE) libft.a $(OBJ_B) -o $(NAME)
+			@$(RM) libft.a
+			@echo "$(GREEN)pipex bonus compiled!$(WHITE)"
 
 .PHONY:		all clean fclean re cmd
