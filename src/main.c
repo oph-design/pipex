@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/14 14:53:10 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/14 15:40:15 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	char	*path;
 
 	path = argv[i];
-	cmd = ft_split(format_cmd(argv[i]), ' ');
+	cmd = ft_split(format_ehre(argv[i]), ' ');
 	if (cmd[3])
 		cmd = join_cmd(cmd);
 	dup2(src[1], 1);
@@ -64,7 +64,7 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 		change_src(argv[i + 1], 1);
 	close(src[1]);
 	close(src[0]);
-	if (access(argv[i], X_OK) < 0)
+	if (access(path, X_OK) < 0)
 		path = get_path(env, cmd[0]);
 	if (execve(path, cmd, env) == -1)
 		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);

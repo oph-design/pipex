@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 14:36:05 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/14 14:50:11 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:02:34 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,30 @@ void	err(char *mess, int exit_code, char **cmd)
 	exit(exit_code);
 }
 
-char	*format_awk(char *cmd)
+char	*format_ehre(char *cmd)
 {
-	char	*tmp;
-
-	tmp = ft_strtrim(cmd, "awk ");
-	tmp[0] = ' ';
-	tmp[ft_strlen(tmp) - 1] = ' ';
-	ft_swap(tmp, '\\', ' ');
-	cmd = ft_strjoin("awk ", tmp);
-	free(tmp);
-	return (cmd);
-}
-
-char	*format_cmd(char *cmd)
-{
-	int		i;
-
-	i = 0;
 	if (!ft_strncmp(cmd, "awk ", 4))
-		return (format_awk(cmd));
+	{
+		cmd[4] = ' ';
+		cmd[ft_strlen(cmd) - 1] = ' ';
+		ft_swap(cmd, '\\', ' ');
+		return (cmd);
+	}
 	ft_swap(cmd, '\"', ' ');
 	ft_swap(cmd, '\'', ' ');
 	return (cmd);
+}
+
+char	*format_script(char **cmd)
+{
+	if (ft_strncmp(cmd[0], "./", 2))
+		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);
+	if (ft_strnstr(cmd[0], "\"", ft_strlen(cmd)))
+		err(ft_strjoin(cmd[0], ": "), 127, cmd);
+	if (ft_strnstr(cmd[0], "\'", ft_strlen(cmd)))
+		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);
+	if (ft_strnstr(cmd[0], "\\", ft_strlen(cmd)))
+		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);
 }
 
 char	**join_cmd(char **cmd)
