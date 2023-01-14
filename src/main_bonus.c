@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:45 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/14 10:20:38 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:54:16 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,8 @@ char	*get_path(char **env, char *arg)
 void	exec_cmd(char **argv, char **env, int *src, int i)
 {
 	char	**cmd;
-	char	*err;
 	char	*path;
 
-	err = NULL;
 	path = argv[i];
 	cmd = ft_split(format_cmd(argv[i]), ' ');
 	if (cmd[3])
@@ -74,12 +72,7 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	if (access(argv[i], X_OK) < 0)
 		path = get_path(env, cmd[0]);
 	if (execve(path, cmd, env) == -1)
-	{
-		err = ft_strjoin("pipex: command not found: ", cmd[0]);
-		ft_free_arr(cmd);
-		ft_putendl_fd(err, 2);
-		exit(2);
-	}
+		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);
 }
 
 void	pipex(int fd, char **argv, char **env)
@@ -92,12 +85,12 @@ void	pipex(int fd, char **argv, char **env)
 	while (argv[++i + 1] != NULL)
 	{
 		if (pipe(src))
-			ft_error("piping failed", 0);
+			err(ft_strdup("piping failed"), 0, NULL);
 		pid = fork();
 		if (pid == -1)
-			ft_error("forking failed", 0);
+			err(ft_strdup("forking failed"), 0, NULL);
 		if (pid == 0 && fd == -1)
-			ft_error(ft_strjoin("no such file or directory: ", argv[1]), 1);
+			err(ft_strjoin(argv[1], ": No such file or directory "), 0, NULL);
 		else if (pid == 0)
 			exec_cmd(argv, env, src, i);
 		dup2(src[0], 0);

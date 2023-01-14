@@ -6,16 +6,18 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:41 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/13 17:49:24 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:50:38 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex_bonus.h"
 
-void	ft_error(char *mess, int exit_code)
+void	err(char *mess, int exit_code, char **cmd)
 {
 	char	*err;
 
+	if (cmd != NULL)
+		ft_free_arr(cmd);
 	err = ft_strjoin("pipex: ", mess);
 	ft_putendl_fd(err, 2);
 	free(mess);
@@ -74,7 +76,7 @@ void	here_doc(char **argv)
 	int		src[2];
 
 	if (pipe(src))
-		ft_error("here_doc error", 0);
+		err(ft_strdup("here_doc error"), 0, NULL);
 	limiter = ft_strjoin(argv[2], "\n");
 	str = get_next_line(0);
 	while (ft_strncmp(limiter, str, ft_strlen(str) - 1))

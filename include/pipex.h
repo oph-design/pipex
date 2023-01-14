@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 12:33:53 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/13 11:16:33 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:55:47 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <string.h>
 # include <stdio.h>
 
-void	ft_error(char *mess, int exit_code);
+void	err(char *mess, int exit_code, char **cmd);
 char	*format_cmd(char *cmd);
 char	**join_cmd(char **str);
 

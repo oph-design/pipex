@@ -6,16 +6,18 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 14:36:05 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/13 11:17:16 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/14 14:50:11 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_error(char *mess, int exit_code)
+void	err(char *mess, int exit_code, char **cmd)
 {
 	char	*err;
 
+	if (cmd != NULL)
+		ft_free_arr(cmd);
 	err = ft_strjoin("pipex: ", mess);
 	ft_putendl_fd(err, 2);
 	free(mess);
