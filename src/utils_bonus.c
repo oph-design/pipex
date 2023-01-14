@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:41 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/14 14:50:38 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:10:33 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,26 +25,15 @@ void	err(char *mess, int exit_code, char **cmd)
 	exit(exit_code);
 }
 
-char	*format_awk(char *cmd)
-{
-	char	*tmp;
-
-	tmp = ft_strtrim(cmd, "awk ");
-	tmp[0] = ' ';
-	tmp[ft_strlen(tmp) - 1] = ' ';
-	ft_swap(tmp, '\\', ' ');
-	cmd = ft_strjoin("awk ", tmp);
-	free(tmp);
-	return (cmd);
-}
-
 char	*format_cmd(char *cmd)
 {
-	int		i;
-
-	i = 0;
 	if (!ft_strncmp(cmd, "awk ", 4))
-		return (format_awk(cmd));
+	{
+		cmd[4] = ' ';
+		cmd[ft_strlen(cmd) - 1] = ' ';
+		ft_swap(cmd, '\\', ' ');
+		return (cmd);
+	}
 	ft_swap(cmd, '\"', ' ');
 	ft_swap(cmd, '\'', ' ');
 	return (cmd);

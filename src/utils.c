@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/26 14:36:05 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/14 16:02:34 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/14 16:09:24 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	err(char *mess, int exit_code, char **cmd)
 	exit(exit_code);
 }
 
-char	*format_ehre(char *cmd)
+char	*format_cmd(char *cmd)
 {
 	if (!ft_strncmp(cmd, "awk ", 4))
 	{
@@ -37,18 +37,6 @@ char	*format_ehre(char *cmd)
 	ft_swap(cmd, '\"', ' ');
 	ft_swap(cmd, '\'', ' ');
 	return (cmd);
-}
-
-char	*format_script(char **cmd)
-{
-	if (ft_strncmp(cmd[0], "./", 2))
-		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);
-	if (ft_strnstr(cmd[0], "\"", ft_strlen(cmd)))
-		err(ft_strjoin(cmd[0], ": "), 127, cmd);
-	if (ft_strnstr(cmd[0], "\'", ft_strlen(cmd)))
-		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);
-	if (ft_strnstr(cmd[0], "\\", ft_strlen(cmd)))
-		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);
 }
 
 char	**join_cmd(char **cmd)
