@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:45 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/15 17:58:36 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/15 17:59:57 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*change_src(char *file, int src)
 	static int	append = 0;
 
 	if (!ft_strncmp(file, "here_doc", 9))
-		return (append = 1, NULL);
+		return (append++, NULL);
 	if (src == 0 && access(file, F_OK) < 0)
 		return (ft_strjoin(file, ": No such file or directory "));
 	if (src == 0 && access(file, R_OK) < 0)
