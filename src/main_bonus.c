@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:45 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/15 17:45:14 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/15 17:58:36 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ int	main(int argc, char *argv[], char *env[])
 
 	if (argc < 3 || (!ft_strncmp(argv[1], "here_doc", 9) && argc < 4))
 		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
+	if (*env == NULL)
+		err(ft_strdup("no enviroment"), 0, NULL);
 	infile = change_src(argv[1], 0);
 	if (!ft_strncmp(argv[1], "here_doc", 9))
 		here_doc(argv++);
