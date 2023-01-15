@@ -6,25 +6,29 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/14 16:39:52 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/15 17:54:08 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	change_src(char *file, int src)
+char	*change_src(char *file, int src)
 {
 	int	fd;
 
+	if (src == 0 && access(file, F_OK) < 0)
+		return (ft_strjoin(file, ": No such file or directory "));
+	if (src == 0 && access(file, R_OK) < 0)
+		return (ft_strjoin("permission denied: ", file));
+	if (src == 1 && !access(file, F_OK) && (access(file, W_OK) < 0))
+		err(ft_strjoin("permission denied: ", file), 0, NULL);
 	if (src == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
 		fd = open(file, O_RDONLY);
-	if (fd == -1)
-		return (fd);
 	dup2(fd, src);
 	close(fd);
-	return (fd);
+	return (NULL);
 }
 
 char	*get_path(char **env, char *arg)
@@ -35,7 +39,7 @@ char	*get_path(char **env, char *arg)
 
 	i = 0;
 	res = NULL;
-	if (env == NULL)
+	if (*env == NULL)
 		err(ft_strdup("no enviroment"), 0, NULL);
 	while (ft_strncmp(*env, "PATH=", 5))
 		env++;
@@ -44,7 +48,7 @@ char	*get_path(char **env, char *arg)
 	{
 		res = ft_strjoin(paths[i], "/");
 		res = ft_strjoin_alt(res, arg);
-		if (!access(res, X_OK))
+		if (!access(res, X_OK | F_OK))
 			return (ft_free_arr(paths), res);
 		free(res);
 		i++;
@@ -66,13 +70,13 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 		change_src(argv[i + 1], 1);
 	close(src[1]);
 	close(src[0]);
-	if (access(path, X_OK) < 0)
+	if (access(path, X_OK | F_OK) < 0)
 		path = get_path(env, cmd[0]);
 	if (execve(path, cmd, env) == -1)
 		err(ft_strjoin(cmd[0], ": command not found"), 127, cmd);
 }
 
-void	pipex(int fd, char **argv, char **env)
+void	pipex(char *infile, char **argv, char **env)
 {
 	int		i;
 	pid_t	pid;
@@ -86,25 +90,27 @@ void	pipex(int fd, char **argv, char **env)
 		pid = fork();
 		if (pid == -1)
 			err(ft_strdup("forking failed"), 0, NULL);
-		if (pid == 0 && fd == -1)
-			err(ft_strjoin(argv[1], ": No such file or directory "), 0, NULL);
+		if (pid == 0 && infile != NULL)
+			err(infile, 0, NULL);
 		else if (pid == 0)
 			exec_cmd(argv, env, src, i);
 		dup2(src[0], 0);
 		close(src[0]);
 		close(src[1]);
 		waitpid(pid, NULL, WNOHANG);
-		fd = 0;
+		if (infile != NULL)
+			free(infile);
+		infile = NULL;
 	}
 }
 
 int	main(int argc, char *argv[], char *env[])
 {
-	int	fd;
+	char	*infile;
 
 	if (argc != 5)
 		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
-	fd = change_src(argv[1], 0);
-	pipex(fd, argv, env);
+	infile = change_src(argv[1], 0);
+	pipex(infile, argv, env);
 	return (0);
 }
