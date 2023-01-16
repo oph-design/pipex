@@ -63,20 +63,18 @@ void	here_doc(char **argv)
 	char	*str;
 	char	*limiter;
 	int		src[2];
+	int		check;
 
 	if (pipe(src))
 		err(ft_strdup("here_doc error"), 0, NULL);
+	check = 1;
 	limiter = ft_strjoin(argv[2], "\n");
 	str = get_next_line(0);
-	if (str == NULL)
-		err(ft_strdup("here_doc error"), 0, NULL);
-	while (ft_strncmp(limiter, str, ft_strlen(str) - 1))
+	while (str && ft_strncmp(limiter, str, ft_strlen(str) - 1))
 	{
 		free(str);
 		ft_putstr_fd(str, src[1]);
 		str = get_next_line(0);
-		if (str == NULL)
-			err(ft_strdup("here_doc error"), 0, NULL);
 	}
 	dup2(src[0], 0);
 	close(src[0]);
