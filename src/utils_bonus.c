@@ -74,9 +74,10 @@ void	here_doc(char **argv)
 		ft_putstr_fd(str, src[1]);
 		str = get_next_line(0);
 	}
+	free(limiter);
+	if (src != NULL)
+		free(str);
 	dup2(src[0], 0);
 	close(src[0]);
 	close(src[1]);
-	free(str);
-	free(limiter);
 }
