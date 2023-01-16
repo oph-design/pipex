@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:45 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/15 17:59:57 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/16 09:47:46 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*get_path(char **env, char *arg)
 	i = 0;
 	res = NULL;
 	if (*env == NULL)
+		exit(1);
+	if (*env == NULL)
 		err(ft_strdup("no enviroment"), 0, NULL);
 	while (ft_strncmp(*env, "PATH=", 5))
 		env++;
@@ -67,14 +69,14 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	char	*path;
 
 	path = argv[i];
+	dup2(src[1], 1);
+	close(src[1]);
+	close(src[0]);
+	if (argv[i + 2] == NULL)
+		change_src(argv[i + 1], 1);
 	cmd = ft_split(format_cmd(argv[i]), ' ');
 	if (cmd[3])
 		cmd = join_cmd(cmd);
-	dup2(src[1], 1);
-	if (argv[i + 2] == NULL)
-		change_src(argv[i + 1], 1);
-	close(src[1]);
-	close(src[0]);
 	if (access(argv[i], X_OK | F_OK) < 0)
 		path = get_path(env, cmd[0]);
 	if (execve(path, cmd, env) == -1)
@@ -116,7 +118,7 @@ int	main(int argc, char *argv[], char *env[])
 	if (argc < 3 || (!ft_strncmp(argv[1], "here_doc", 9) && argc < 4))
 		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
 	if (*env == NULL)
-		err(ft_strdup("no enviroment"), 0, NULL);
+		ft_putendl_fd("pipex: no enviroment", 2);
 	infile = change_src(argv[1], 0);
 	if (!ft_strncmp(argv[1], "here_doc", 9))
 		here_doc(argv++);

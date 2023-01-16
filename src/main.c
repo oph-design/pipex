@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/15 17:58:25 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/16 09:46:36 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*get_path(char **env, char *arg)
 
 	i = 0;
 	res = NULL;
+	if (*env == NULL)
+		exit(1);
 	while (ft_strncmp(*env, "PATH=", 5))
 		env++;
 	paths = ft_split(*env + 5, ':');
@@ -109,7 +111,7 @@ int	main(int argc, char *argv[], char *env[])
 	if (argc != 5)
 		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
 	if (*env == NULL)
-		err(ft_strdup("no enviroment"), 0, NULL);
+		ft_putendl_fd("pipex: no enviroment", 2);
 	infile = change_src(argv[1], 0);
 	pipex(infile, argv, env);
 	return (0);
