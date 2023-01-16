@@ -63,11 +63,9 @@ void	here_doc(char **argv)
 	char	*str;
 	char	*limiter;
 	int		src[2];
-	int		check;
 
 	if (pipe(src))
 		err(ft_strdup("here_doc error"), 0, NULL);
-	check = 1;
 	limiter = ft_strjoin(argv[2], "\n");
 	str = get_next_line(0);
 	while (str && ft_strncmp(limiter, str, ft_strlen(str) - 1))
