@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/24 13:13:10 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/17 09:07:48 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/17 09:09:32 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ char	*get_path(char **env, char *arg)
 	while (*env && ft_strncmp(*env, "PATH=", 5))
 		env++;
 	paths = ft_split(*env + 5, ':');
+	if (paths == NULL)
+		return (NULL);
 	while (paths[i] != NULL)
 	{
 		res = ft_strjoin(paths[i], "/");
