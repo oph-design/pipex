@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:41 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/15 18:05:40 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/17 08:29:10 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	here_doc(char **argv)
 		str = get_next_line(0);
 	}
 	free(limiter);
-	if (src != NULL)
+	if (str != NULL)
 		free(str);
 	dup2(src[0], 0);
 	close(src[0]);
