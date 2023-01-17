@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:45 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/17 08:33:58 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/17 08:45:20 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*change_src(char *file, int src)
 		err(ft_strjoin("permission denied: ", file), 1, NULL);
 	if (src == 1 && append == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	if (src == 1)
+	else if (src == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	else
 		fd = open(file, O_RDONLY);
@@ -113,7 +113,7 @@ int	main(int argc, char *argv[], char *env[])
 {
 	char	*infile;
 
-	if (argc < 3 || (!ft_strncmp(argv[1], "here_doc", 9) && argc < 4))
+	if (argc < 4 || (!ft_strncmp(argv[1], "here_doc", 9) && argc < 5))
 		return (ft_putendl_fd("pipex: wrong number of args", 2), 0);
 	if (*env == NULL)
 		err("no neviroment", 1, NULL);
