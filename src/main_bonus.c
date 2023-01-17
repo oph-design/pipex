@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:45 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/17 08:31:41 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/01/17 08:33:58 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*change_src(char *file, int src)
 	if (src == 0 && access(file, R_OK) < 0)
 		return (ft_strjoin("permission denied: ", file));
 	if (src == 1 && !access(file, F_OK) && (access(file, W_OK) < 0))
-		err(ft_strjoin("permission denied: ", file), 0, NULL);
+		err(ft_strjoin("permission denied: ", file), 1, NULL);
 	if (src == 1 && append == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (src == 1)
@@ -91,10 +91,10 @@ void	pipex(char *infile, char **argv, char **env)
 	while (argv[++i + 1] != NULL)
 	{
 		if (pipe(src))
-			err(ft_strdup("piping failed"), 0, NULL);
+			err(ft_strdup("piping failed"), 1, NULL);
 		pid = fork();
 		if (pid == -1)
-			err(ft_strdup("forking failed"), 0, NULL);
+			err(ft_strdup("forking failed"), 1, NULL);
 		if (pid == 0 && infile != NULL)
 			err(infile, 0, NULL);
 		if (pid == 0)
