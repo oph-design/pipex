@@ -6,7 +6,7 @@
 #    By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/24 12:41:45 by oheinzel          #+#    #+#              #
-#    Updated: 2023/01/13 12:32:19 by oheinzel         ###   ########.fr        #
+#    Updated: 2023/01/18 10:43:08 by oheinzel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,9 @@ WHITE		= \033[0m
 #Sources
 
 SRC_FILES	=	main utils
-SRC_B_FILES	=	main_bonus utils_bonus
 
 SRC			=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJ			=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_FILES)))
-SRC_B		=	$(addprefix $(SRC_DIR), $(addsuffix .c, $(SRC_B_FILES)))
-OBJ_B		=	$(addprefix $(OBJ_DIR), $(addsuffix .o, $(SRC_B_FILES)))
 
 ###
 
@@ -68,11 +65,4 @@ fclean:		clean
 re:			fclean all
 			@echo "$(GREEN)Cleaned and rebuilt everything for pipex!$(WHITE)"
 
-bonus:		fclean $(OBJ_B)
-			@make -C $(LIBFT)
-			@cp libft/libft.a .
-			@$(CC) $(CFLAGS) $(INCLUDE) libft.a $(OBJ_B) -o $(NAME)
-			@$(RM) libft.a
-			@echo "$(GREEN)pipex bonus compiled!$(WHITE)"
-
-.PHONY:		all clean fclean re cmd
+.PHONY:		all clean fclean re

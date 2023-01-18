@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/26 14:36:05 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/15 18:48:10 by oheinzel         ###   ########.fr       */
+/*   Created: 2023/01/12 15:44:41 by oheinzel          #+#    #+#             */
+/*   Updated: 2023/01/18 10:42:37 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,20 @@ void	err(char *mess, int exit_code, char **cmd)
 
 char	*format_cmd(char *cmd)
 {
-	if (!ft_strncmp(cmd, "awk ", 4))
-	{
-		cmd[4] = ' ';
-		cmd[ft_strlen(cmd) - 1] = ' ';
-		ft_swap(cmd, '\\', ' ');
-		return (cmd);
-	}
-	ft_swap(cmd, '\"', ' ');
-	ft_swap(cmd, '\'', ' ');
-	return (cmd);
+	if (ft_strncmp(cmd, "awk ", 4))
+		return (ft_swap(cmd, '\"', ' '), ft_swap(cmd, '\'', ' '), cmd);
+	cmd[4] = ' ';
+	cmd[ft_strlen(cmd) - 1] = ' ';
+	return (ft_swap(cmd, '\\', ' '), cmd);
 }
 
 char	**join_cmd(char **cmd)
 {
 	char	**res;
-	int		i;
 	char	*tmp;
+	size_t	i;
 
-	if (!cmd)
+	if (cmd == NULL)
 		return (NULL);
 	i = 1;
 	res = malloc(3 * sizeof(char *));
@@ -56,4 +51,28 @@ char	**join_cmd(char **cmd)
 	res[1] = tmp;
 	res[2] = NULL;
 	return (ft_free_arr(cmd), res);
+}
+
+void	here_doc(char **argv)
+{
+	char	*str;
+	char	*limiter;
+	int		src[2];
+
+	if (pipe(src))
+		err(ft_strdup("here_doc error"), 0, NULL);
+	limiter = ft_strjoin(argv[2], "\n");
+	str = get_next_line(0);
+	while (str && ft_strncmp(limiter, str, ft_strlen(str) - 1))
+	{
+		free(str);
+		ft_putstr_fd(str, src[1]);
+		str = get_next_line(0);
+	}
+	free(limiter);
+	if (str != NULL)
+		free(str);
+	dup2(src[0], 0);
+	close(src[0]);
+	close(src[1]);
 }
