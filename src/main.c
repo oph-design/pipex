@@ -6,7 +6,7 @@
 /*   By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 15:44:45 by oheinzel          #+#    #+#             */
-/*   Updated: 2023/01/18 10:42:47 by oheinzel         ###   ########.fr       */
+/*   Updated: 2023/02/20 14:16:37 by oheinzel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	exec_cmd(char **argv, char **env, int *src, int i)
 	if (argv[i + 2] == NULL)
 		change_src(argv[i + 1], 1);
 	cmd = ft_split(format_cmd(argv[i]), ' ');
-	if (cmd[3])
+	if (ft_arr_len(cmd) > 3)
 		cmd = join_cmd(cmd);
 	if (access(argv[i], X_OK | F_OK) < 0)
 		path = get_path(env, cmd[0]);

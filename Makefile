@@ -6,7 +6,7 @@
 #    By: oheinzel <oheinzel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/12/24 12:41:45 by oheinzel          #+#    #+#              #
-#    Updated: 2023/01/18 10:43:08 by oheinzel         ###   ########.fr        #
+#    Updated: 2023/02/20 14:15:17 by oheinzel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,12 +54,10 @@ $(OBJF):
 
 clean:
 			@$(RM) -rf $(OBJ_DIR)
-			@make clean -C $(LIBFT)
 			@echo "$(GREEN)pipex object files cleaned!$(WHITE)"
 
 fclean:		clean
 			@$(RM) -f $(NAME)
-			@$(RM) -f $(LIBFT)/libft.a
 			@echo "$(GREEN)pipex executable files cleaned!$(WHITE)"
 
 re:			fclean all
